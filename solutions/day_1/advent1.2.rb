@@ -8,7 +8,6 @@
 # ()()) causes him to enter the basement at character position 5.
 # What is the position of the character that causes Santa to first enter the basement?
 
-# Input: https://gist.githubusercontent.com/seanhandley/9cb9667b585081671381/raw/0ceb1b330964b7b6b0f9b69be28e1bc1f21cbd81/gistfile1.txt
 input = STDIN.gets.chars
 changes = input.map{|i| i == '(' ? 1 : -1}
 @level = 0

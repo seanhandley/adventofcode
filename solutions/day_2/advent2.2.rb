@@ -10,7 +10,6 @@
 # A present with dimensions 1x1x10 requires 1+1+1+1 = 4 feet of ribbon to wrap the present plus 1*1*10 = 10 feet of ribbon for the bow, for a total of 14 feet.
 # How many total feet of ribbon should they order?
 
-# Input: https://gist.githubusercontent.com/seanhandley/527678e3be0dd088687d/raw/78abea9db2d715df05af39f8c589d4ae9965533b/gistfile1.txt
 input = STDIN.read.split("\n")
 measurements = input.map{|i| i.split('x').map(&:to_i)}
 

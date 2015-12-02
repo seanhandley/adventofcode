@@ -10,7 +10,6 @@
 # A present with dimensions 1x1x10 requires 2*1 + 2*10 + 2*10 = 42 square feet of wrapping paper plus 1 square foot of slack, for a total of 43 square feet.
 # All numbers in the elves' list are in feet. How many total square feet of wrapping paper should they order?
 
-# Input: https://gist.githubusercontent.com/seanhandley/527678e3be0dd088687d/raw/78abea9db2d715df05af39f8c589d4ae9965533b/gistfile1.txt
 input = STDIN.read.split("\n")
 measurements = input.map{|i| i.split('x').map(&:to_i)}
 measurements = measurements.map do |measurement|
