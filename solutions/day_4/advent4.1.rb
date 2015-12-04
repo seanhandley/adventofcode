@@ -11,12 +11,16 @@
 
 require 'digest/md5'
 
-key = STDIN.gets
-
-for i in 0..10_000_000_000
-  hash = Digest::MD5.hexdigest(key + i.to_s)
-  if hash =~ /^00000/
-    p i
-    break
+def solve(key, pattern)
+  for i in 0..10_000_000_000
+    hash = Digest::MD5.hexdigest(key + i.to_s)
+    if hash =~ pattern
+      p i
+      break
+    end
   end
+end
+
+if __FILE__ == $0
+  solve(STDIN.gets, /^00000/)
 end
