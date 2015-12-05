@@ -16,28 +16,26 @@
 # dvszwmarrgswjxmb is naughty because it contains only one vowel.
 # How many strings are nice?
 
+class String
+  def has_two_consecutive_substrings?
+    curr = ''
+    chars.each do |char|
+      if curr == char
+        return true
+      else
+        curr = char
+      end
+    end
+    false
+  end
+end
+
 strings = STDIN.read.split("\n")
 
-nice = strings.reject do |string|
-  string =~ /(ab|cd|pq|xy)/
+nice = strings.select do |string|
+  string.scan(/a|e|i|o|u/).count >= 3 &&
+  string.has_two_consecutive_substrings? &&
+  string !~ /(ab|cd|pq|xy)/
 end
 
-nice = nice.select do |string|
-  string.scan(/a|e|i|o|u/).count >= 3
-end
-
-nice = nice.select do |string|
-  curr = ''
-  double_char = false
-  string.chars.each do |char|
-    if curr == char
-      double_char = true
-      break
-    else
-      curr = char
-    end
-  end
-  double_char
-end
-
-puts nice.count
+p nice.count

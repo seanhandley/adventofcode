@@ -24,24 +24,26 @@ class String
     end
     chunks
   end
-  def indexes(needle)
+  def indexes(substring)
     found = []
     current_index = -1
-    while current_index = index(needle, current_index+1)
+    while current_index = index(substring, current_index+1)
       found << current_index
     end
     found
   end
 end
 
-def one_index_pair_non_consecutive(indexes)
-  return true if indexes.count > 2
-  i = 0
-  (indexes.count-1).times do
-    return true if (indexes[i+1] - indexes[i]) > 1
-    i += 1
+class Array
+  def has_one_index_pair_non_consecutive?
+    return true if count > 2
+    i = 0
+    (count-1).times do
+      return true if (self[i+1] - self[i]) > 1
+      i += 1
+    end
+    false
   end
-  false
 end
 
 strings = STDIN.read.split("\n")
@@ -49,14 +51,10 @@ strings = STDIN.read.split("\n")
 nice = strings.select do |string|
   string.equal_chunks(3).any? do |chunk|
     chunk.chars[0] == chunk.chars[2]
-  end
-end
-
-nice = nice.select do |string|
-  string.equal_chunks(2).any? do |chunk|
+  end && string.equal_chunks(2).any? do |chunk|
     indexes = string.indexes(chunk)
-    indexes.count >= 2 && one_index_pair_non_consecutive(indexes)
+    indexes.count >= 2 && indexes.has_one_index_pair_non_consecutive?
   end
 end
 
-puts nice.count
+p nice.count
