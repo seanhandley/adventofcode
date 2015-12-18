@@ -57,50 +57,25 @@
 #
 # In your grid of 100x100 lights, given your initial configuration, but with the four corners always in the on state, how many lights are on after 100 steps?
 
-def start_lights
-  @lights ||= STDIN.read.split("\n").map{|line| line.chars}
-end
-
-def neighbours(lights, x, y)
-  boundary = lights[x].count-1
-  neighbours = []
-  neighbours << lights[x-1][y] if x > 0
-  neighbours << lights[x-1][y-1] if x > 0 && y > 0
-  neighbours << lights[x][y-1] if y > 0
-  neighbours << lights[x+1][y] if x < boundary
-  neighbours << lights[x+1][y+1] if x < boundary && y < boundary
-  neighbours << lights[x][y+1] if y < boundary
-  neighbours << lights[x-1][y+1] if x > 0 && y < boundary
-  neighbours << lights[x+1][y-1] if y > 0 && x < boundary
-  neighbours
-end
-
-def count_on(state)
-  state.map{|r| r.select{|i| i == '#'}.count}.reduce(:+)
-end
-
-def next_state(lights)
-  next_s = lights.map{|row| row.dup}
-  for x in 0..99
-    for y in 0..99
-      next if x == 0 && y == 0
-      next if x == 0 && y == 99
-      next if x == 99 && y == 0
-      next if x == 99 && y == 99
-      if lights[x][y] == '.'
-        if neighbours(lights, x, y).select{|n| n == '#'}.count == 3
-          next_s[x][y] = '#'
-        end
-      else
-        on = neighbours(lights, x, y).select{|n| n == '#'}.count
-        next_s[x][y] = '.' unless [2,3].include?(on)
-      end
-    end
-  end
-  next_s
-end
+require_relative 'advent18.1'
 
 state = start_lights
 
-100.times { state = next_state(state) }
+100.times do
+  state = next_state(state) do |lights, next_s, x, y|
+    next if x == 0 && y == 0
+    next if x == 0 && y == 99
+    next if x == 99 && y == 0
+    next if x == 99 && y == 99
+    if lights[x][y] == '.'
+      if neighbours(lights, x, y).select{|n| n == '#'}.count == 3
+        next_s[x][y] = '#'
+      end
+    else
+      on = neighbours(lights, x, y).select{|n| n == '#'}.count
+      next_s[x][y] = '.' unless [2,3].include?(on)
+    end
+  end
+end
+
 p count_on(state)

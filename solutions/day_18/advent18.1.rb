@@ -95,6 +95,18 @@ def next_state(lights)
   next_s = lights.map{|row| row.dup}
   for x in 0..99
     for y in 0..99
+      yield(lights, next_s, x, y)
+    end
+  end
+  next_s
+end
+
+
+if $0 == __FILE__
+  state = start_lights
+
+  100.times do
+    state = next_state(state) do |lights, next_s, x, y|
       if lights[x][y] == '.'
         if neighbours(lights, x, y).select{|n| n == '#'}.count == 3
           next_s[x][y] = '#'
@@ -105,10 +117,6 @@ def next_state(lights)
       end
     end
   end
-  next_s
+
+  p count_on(state)
 end
-
-state = start_lights
-
-100.times { state = next_state(state) }
-p count_on(state)
