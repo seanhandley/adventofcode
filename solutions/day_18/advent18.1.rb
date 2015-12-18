@@ -76,12 +76,12 @@ end
 def neighbours(lights, x, y)
   boundary = lights[x].count-1
   neighbours = []
-  neighbours << lights[x-1][y] if x > 0
+  neighbours << lights[x-1][y]   if x > 0
   neighbours << lights[x-1][y-1] if x > 0 && y > 0
-  neighbours << lights[x][y-1] if y > 0
-  neighbours << lights[x+1][y] if x < boundary
+  neighbours << lights[x][y-1]   if y > 0
+  neighbours << lights[x+1][y]   if x < boundary
   neighbours << lights[x+1][y+1] if x < boundary && y < boundary
-  neighbours << lights[x][y+1] if y < boundary
+  neighbours << lights[x][y+1]   if y < boundary
   neighbours << lights[x-1][y+1] if x > 0 && y < boundary
   neighbours << lights[x+1][y-1] if y > 0 && x < boundary
   neighbours
