@@ -131,11 +131,6 @@ def fight(wizard, boss, spells)
   play = 1
   while(wizard.hp > 0 && boss.hp > 0)
     debug play; play += 1
-    # expired spells removed
-    @spells_in_effect = @spells_in_effect.select do |spell|
-      spell.turns > 0
-    end
-    debug @spells_in_effect
     # spells in effect take effect
     wizard.armor = 0
     @spells_in_effect.each do |spell|
@@ -144,6 +139,10 @@ def fight(wizard, boss, spells)
       wizard.mana += spell.recharge
       spell.turns -= 1
     end
+    # expired spells removed
+    @spells_in_effect = @spells_in_effect.select do |spell|
+      spell.turns > 0
+    end
     # cast next spell
     spell = spells.shift
     debug "Next spell: #{spell}"
@@ -151,7 +150,7 @@ def fight(wizard, boss, spells)
       boss.hp -= spell.damage
       wizard.hp += spell.heal
     else
-      raise "Spell already in effect :-(" if @spells_in_effect.map(&:name).include?(spell.name)
+      raise "Spell is in effect :-(" if @spells_in_effect.map(&:name).include?(spell.name)
       @spells_in_effect << spell
     end
     # Charge the mana cost
@@ -172,8 +171,11 @@ def debug(message)
   p message
 end
 
-# less than 1288
-casts = [[2,4,4,3,1,0,0,0,4,0,2,0,0,0,0,0]]
+# Winning score is less than 1228
+
+# 1288
+casts = [[3,4,2,0,0,0,4,3,0,0,0,0,0]]
+casts = [[4,2,1,0,0,4,0,0,0,0,0,0,0]]
 
 winning_cost = 1000000
 
