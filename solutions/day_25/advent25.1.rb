@@ -48,21 +48,16 @@
 
 target_row, target_column = STDIN.read.match(/(\d+), column (\d+)\.$/).captures.map(&:to_i)
 
-current_value  = 20_151_125
-current_row    = 2
-current_column = 1
+current_value               = 20_151_125
+current_row, current_column = 2, 1
+multiplier, modulo          = 252_533, 33_554_393
 
-until(current_row == target_row && current_column == target_column)
-  #puts "#{current_row},#{current_column}"
-  current_value = (current_value * 252_533) % 33_554_393
-  # up and to the right
-  if current_row == 1
-    current_row = current_column +1
-    current_column = 1
-  else
-    current_column += 1
-    current_row -= 1
-  end
+next_value = -> (current_value) { (current_value * multiplier) % modulo }
+
+loop do
+  current_value = next_value.call(current_value)
+  break if current_row == target_row && current_column == target_column
+  current_row == 1 ? (current_row = current_column + 1; current_column = 1) : (current_column += 1; current_row -= 1)
 end
 
-p (current_value * 252_533) % 33_554_393
+p current_value
