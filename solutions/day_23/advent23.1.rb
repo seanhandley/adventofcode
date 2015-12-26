@@ -40,41 +40,41 @@ end
   'b' => 0
 }
 
-@current_instruction = 0
+@instruction_pointer = 0
 @ticks = 0
 
 def execute
-  while(current_instruction = @instructions[@current_instruction])
+  while(current_instruction = @instructions[@instruction_pointer])
     @ticks += 1
     command, args = decode_instruction(current_instruction)
-    puts "#{@ticks}: Instruction ##{@current_instruction}, #{command}(#{args.join(', ')})."
+    puts "#{@ticks.to_s.rjust(4, '0')}: [a: #{@registers['a'].to_s.rjust(5,'0')}, b: #{@registers['b'].to_s.rjust(5,'0')}] ##{@instruction_pointer.to_s.rjust(2, '0')} #{command.upcase} (#{args.join(', ')})"
     case command
     when 'hlf'
       @registers[args[0]] /= 2
-      @current_instruction += 1
+      @instruction_pointer += 1
     when 'tpl'
       @registers[args[0]] *= 3
-      @current_instruction += 1
+      @instruction_pointer += 1
     when 'inc'
       @registers[args[0]] += 1
-      @current_instruction += 1
+      @instruction_pointer += 1
     when 'jmp'
-      @current_instruction += args[0].to_i
+      @instruction_pointer += args[0].to_i
     when 'jie'
       if @registers[args[0]] % 2 == 0
-        @current_instruction += args[1].to_i
+        @instruction_pointer += args[1].to_i
       else
-        @current_instruction += 1
+        @instruction_pointer += 1
       end
     when 'jio'
       if @registers[args[0]] == 1
-        @current_instruction += args[1].to_i
+        @instruction_pointer += args[1].to_i
       else
-        @current_instruction += 1
+        @instruction_pointer += 1
       end
     end
   end
-  puts "Jumped to unknown location #{@current_instruction}. Exiting."
+  puts "Jumped to unknown location #{@instruction_pointer}. Exiting."
   @registers['b']
 end
 

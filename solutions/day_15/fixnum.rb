@@ -8,7 +8,7 @@ class Fixnum
   #      4.partition(2) => [[4], [3, 1], [2, 2]]
   #
   def partition(limit=Float::INFINITY)
-    res = Fixnum.partition(self.abs, limit)
+    res = Fixnum.partition(self.abs, limit).lazy
     self < 0 ? res.map{|i| i.map{|j| 0 - j}} : res
   end
 
